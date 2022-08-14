@@ -3,9 +3,10 @@ use chumsky::prelude::*;
 use crate::rover::{Command, Grid, Orientation, Rover};
 use crate::vector::Vector;
 
+pub type Output = (Grid, Vec<(Rover, Vec<Command>)>);
+
 /// Parses input of the form `"4 8\n(2, 3, E) LFRFF\n(0, 2, N) FFLFRFF\n"`
-pub fn input_parser() -> impl Parser<char, (Grid, Vec<(Rover, Vec<Command>)>), Error = Simple<char>>
-{
+pub fn parse_input(input: &str) -> Result<Output, Vec<Simple<char>>> {
     let grid = grid_parser();
 
     let rover = rover_parser();
@@ -14,6 +15,8 @@ pub fn input_parser() -> impl Parser<char, (Grid, Vec<(Rover, Vec<Command>)>), E
 
     grid.then_ignore(text::newline())
         .then(rover.padded().then(commands.padded()).repeated())
+        .then_ignore(end())
+        .parse(input)
 }
 
 fn num_parser() -> impl Parser<char, i32, Error = Simple<char>> + Copy {
@@ -66,7 +69,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn parse_grid() {
+    fn can_parse_grid() {
         let input = "4 8";
         let expected = Grid { m: 4, n: 8 };
 
@@ -74,7 +77,7 @@ mod tests {
     }
 
     #[test]
-    fn parse_rover() {
+    fn can_parse_rover() {
         let input = "(2, 3, E)";
         let expected = Rover::new(Vector::new(2, 3), Orientation::E);
 
@@ -82,7 +85,7 @@ mod tests {
     }
 
     #[test]
-    fn parse_commands() {
+    fn can_parse_commands() {
         use Command::*;
 
         let input = "LFRFF";
@@ -92,7 +95,7 @@ mod tests {
     }
 
     #[test]
-    fn parse_input() {
+    fn can_parse_input() {
         use Command::*;
 
         let input = "\
@@ -114,6 +117,6 @@ mod tests {
             ],
         );
 
-        assert_eq!(expected, input_parser().parse(input).unwrap());
+        assert_eq!(expected, parse_input(input).unwrap());
     }
 }
