@@ -107,8 +107,10 @@ impl Orientation {
             W => Vector::new(-1, 0),
         }
     }
+}
 
-    fn from_unit_vector(v: Vector) -> Orientation {
+impl From<Vector> for Orientation {
+    fn from(v: Vector) -> Self {
         use Orientation::*;
         match (v.x, v.y) {
             (0, 1) => N,
@@ -136,10 +138,7 @@ mod tests {
 
         assert_eq!(RoverStatus::Operational, rover.status);
         assert_eq!(Vector::new(4, 4), rover.position);
-        assert_eq!(
-            Orientation::E,
-            Orientation::from_unit_vector(rover.orientation)
-        );
+        assert_eq!(Orientation::E, rover.orientation.into());
     }
 
     #[test]
@@ -154,9 +153,6 @@ mod tests {
 
         assert_eq!(RoverStatus::Lost, rover.status);
         assert_eq!(Vector::new(0, 4), rover.position);
-        assert_eq!(
-            Orientation::W,
-            Orientation::from_unit_vector(rover.orientation)
-        );
+        assert_eq!(Orientation::W, rover.orientation.into());
     }
 }
