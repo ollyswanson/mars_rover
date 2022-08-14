@@ -1,4 +1,5 @@
 [package]
+authors = ["Olly Swanson"]
 name = "rover"
 version = "0.1.0"
 edition = "2021"
