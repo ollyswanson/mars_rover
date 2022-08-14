@@ -1,6 +1,6 @@
 use crate::vector::Vector;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct Rover {
     /// The position of the rover on a [`Grid`].
     position: Vector,
@@ -21,7 +21,7 @@ enum RoverStatus {
 }
 
 /// A command issued to a [`Rover`].
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Command {
     /// Command the rover to turn left (90 degrees anticlockwise).
     Left,
@@ -44,10 +44,10 @@ pub enum Orientation {
 /// An `m * n` grid representing the area of operation for a [`Rover`]. For a `10 * 5` grid,
 /// `Grid { m: 10, n: 5 }`, the northeast point of the grid is given by the [`Vector`],
 /// `Vector { x: 10, y: 5 }` and the southwest point of the grid is `Vector { x: 0, y: 0 }`.
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct Grid {
-    m: i32,
-    n: i32,
+    pub m: i32,
+    pub n: i32,
 }
 
 impl Rover {
