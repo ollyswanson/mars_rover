@@ -1,4 +1,4 @@
-# Rover
+# Mars Rover Challenge
 
 A simple command-line program to solve the "Mars Rover" challenge.
 

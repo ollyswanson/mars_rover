@@ -1,6 +1,6 @@
 [package]
 authors = ["Olly Swanson"]
-name = "rover"
+name = "mars_rover_challenge"
 version = "0.1.0"
 edition = "2021"
 

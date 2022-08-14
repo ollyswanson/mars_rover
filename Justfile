@@ -19,6 +19,6 @@ debug ARGS='':
 
 # Run in release mode.
 run-release ARGS='': build
-	./target/release/rover {{ARGS}}
+	./target/release/mars_rover_challenge {{ARGS}}
 
 
