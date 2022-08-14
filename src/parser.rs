@@ -1,3 +1,4 @@
+//! Parse text input into `(Grid, Vec<(Rover, Vec<Command>)>)`
 use chumsky::prelude::*;
 
 use crate::rover::{Command, Grid, Orientation, Rover};

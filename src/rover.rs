@@ -35,6 +35,8 @@ pub enum Command {
     Forward,
 }
 
+/// Used when initialising and displaying a [`Rover`], allowing us to work with cardinal directions
+/// instead of a vector.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Orientation {
     N,

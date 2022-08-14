@@ -1,5 +1,7 @@
+//! 2D vector in Cartesian coordinates.
 use std::ops;
 
+/// Used to represent the position and orientation of a [`Rover`] in a 2D grid.
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct Vector {
     pub x: i32,

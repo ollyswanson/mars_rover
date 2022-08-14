@@ -2,8 +2,8 @@ _default:
 	just --list
 
 # Open crate documentation.
-docs:
-	cargo docs --open --no-deps
+doc:
+	cargo doc --open --no-deps
 
 # Run tests matching `TEST`. Leave blank to run all tests.
 test TEST='':

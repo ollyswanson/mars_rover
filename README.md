@@ -34,3 +34,10 @@ ARGS:
 OPTIONS:
     -h, --help    Print help information
 ```
+
+Sample input can be found [here](input.txt)
+
+## Tests
+
+Unit tests are found inline in each module. Integration tests that invoke the
+program and test its output are a desired future addition.
