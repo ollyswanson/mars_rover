@@ -1,3 +1,5 @@
+use std::fs;
+use std::io::{self, Read};
 use std::process;
 
 mod args;
@@ -5,18 +7,23 @@ mod parser;
 mod rover;
 mod vector;
 
-pub type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
-
-fn main() -> Result<()> {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = args::get_args();
 
-    let input = std::fs::read_to_string(&args.file)?;
+    let input = if let Some(path) = args.path {
+        fs::read_to_string(path)?
+    } else {
+        let mut buf = String::new();
+        io::stdin().read_to_string(&mut buf)?;
+        buf
+    };
 
     let (grid, lines) = match parser::parse_input(&input) {
         Ok(input) => input,
         Err(errors) => {
+            // TODO: Improve error reporting using `ariadne` crate
             for error in errors {
-                eprintln!("{}", error);
+                eprintln!("{error}");
             }
             process::exit(1);
         }
@@ -24,7 +31,7 @@ fn main() -> Result<()> {
 
     for (mut rover, commands) in lines {
         rover.follow_commands(&commands, &grid);
-        println!("{}", rover);
+        println!("{rover}");
     }
 
     Ok(())
