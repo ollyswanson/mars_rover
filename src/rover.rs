@@ -1,3 +1,5 @@
+use std::fmt;
+
 use crate::vector::Vector;
 
 #[derive(Debug, PartialEq, Eq)]
@@ -96,6 +98,24 @@ impl Rover {
     }
 }
 
+impl fmt::Display for Rover {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            "({}, {}, {})",
+            self.position.x,
+            self.position.y,
+            Orientation::from(self.orientation)
+        )?;
+
+        if self.status == RoverStatus::Lost {
+            f.write_str(" LOST")?;
+        }
+
+        Ok(())
+    }
+}
+
 impl Orientation {
     fn to_unit_vector(self) -> Vector {
         use Orientation::*;
@@ -105,6 +125,19 @@ impl Orientation {
             E => Vector::new(1, 0),
             S => Vector::new(0, -1),
             W => Vector::new(-1, 0),
+        }
+    }
+}
+
+impl fmt::Display for Orientation {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        use Orientation::*;
+
+        match self {
+            N => f.write_str("N"),
+            E => f.write_str("E"),
+            S => f.write_str("S"),
+            W => f.write_str("W"),
         }
     }
 }
@@ -139,6 +172,9 @@ mod tests {
         assert_eq!(RoverStatus::Operational, rover.status);
         assert_eq!(Vector::new(4, 4), rover.position);
         assert_eq!(Orientation::E, rover.orientation.into());
+
+        let expected = "(4, 4, E)";
+        assert_eq!(expected, format!("{}", rover));
     }
 
     #[test]
@@ -154,5 +190,8 @@ mod tests {
         assert_eq!(RoverStatus::Lost, rover.status);
         assert_eq!(Vector::new(0, 4), rover.position);
         assert_eq!(Orientation::W, rover.orientation.into());
+
+        let expected = "(0, 4, W) LOST";
+        assert_eq!(expected, format!("{}", rover));
     }
 }

@@ -12,13 +12,8 @@ pub fn input_parser() -> impl Parser<char, (Grid, Vec<(Rover, Vec<Command>)>), E
 
     let commands = commands_parser();
 
-    grid.then_ignore(text::newline()).then(
-        rover
-            .padded()
-            .then(commands.padded())
-            .repeated()
-            .collect::<Vec<_>>(),
-    )
+    grid.then_ignore(text::newline())
+        .then(rover.padded().then(commands.padded()).repeated())
 }
 
 fn num_parser() -> impl Parser<char, i32, Error = Simple<char>> + Copy {
